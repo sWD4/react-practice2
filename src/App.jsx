@@ -14,6 +14,8 @@ import ComponentOne from "./components/ComponentOne"
 import ComponentTwo from "./components/ComponentTwo"
 import MyState from "./context/data/myState";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { decrement, increment, incrementByAmount } from "./features/counter/counterSlice";
 
 function App() {
   // const a = 10;
@@ -90,17 +92,20 @@ function App() {
   //   getProduct()
   // }, [])
   //fetch api by using axios method 2
-  const [products, setproducts] = useState([])
-  //axios method
-  const getProduct = ()=>{
-      axios.get('https://myfirstapi-data.vercel.app')
-      .then((response)=>{setproducts(response.data.products)})
-      .catch((error)=>{console.log(error)})
-  }
+//   const [products, setproducts] = useState([])
+//   //axios method
+//   const getProduct = ()=>{
+//       axios.get('https://myfirstapi-data.vercel.app')
+//       .then((response)=>{setproducts(response.data.products)})
+//       .catch((error)=>{console.log(error)})
+//   }
 
-useEffect(() => {
- getProduct()
-}, [])
+// useEffect(() => {
+//  getProduct()
+// }, [])
+//redux toolkit function
+const count = useSelector((state)=>state.counter.value)
+const dispatch = useDispatch()
 
   return (
     <>
@@ -205,7 +210,7 @@ useEffect(() => {
       </div>
     </div> */}
       {/* -----------------------------------fetch api by axios method 2------------------------------- */}
-      <div>
+      {/* <div>
       <div className='flex flex-wrap px-4 lg:px-10 '>
        {products.map((item,index)=>{
         const{image,title,price,description}= item
@@ -228,6 +233,38 @@ useEffect(() => {
         </div>
         )
        })}
+      </div>
+    </div> */}
+    {/* -----------------------------------redux toolkit uses------------------------------- */}
+    <div className=' flex space-x-3 justify-center items-center h-screen'>
+      <div className="">
+
+        {/* Read  */}
+        <p className=' text-6xl font-bold text-center mb-5 text-white'>{count}</p>
+
+        {/* Increment Button  */}
+        <button
+          className=' bg-red-600 text-white py-2.5 rounded-md px-5 font-bold'
+          onClick={()=>dispatch(increment())}
+        >
+          Increment
+        </button>
+
+        {/* Decrement Button  */}
+        <button
+          className=' ml-20 bg-green-600 text-white py-2.5 rounded-md px-5 font-bold'
+          onClick={()=>dispatch(decrement())}
+        >
+          Decrement
+        </button>
+
+        {/* Increment By User */}
+        <button
+          className=' ml-20 bg-orange-600 text-white py-2.5 rounded-md px-5 font-bold'
+          onClick={()=>dispatch(incrementByAmount(5))}
+        >
+          Inc. By User
+        </button>
       </div>
     </div>
     </>
